@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demo-deployment
+  namespace: demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: demo
+  template:
+    metadata:
+      labels:
+        app: demo
+    spec:
+      containers:
+      - name: demo
+        image: demo:0.0.1
+        ports:
+          - containerPort: 8080
+        env:
+          - name: DB_PORT
+            value: "5432"
+          - name: DB_HOST
+            value: "localdb-rw.postgres.svc.cluster.local"
+          - name: DB_NAME
+            value: "localdb"
+          - name: DB_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: db-secret
+                key: USERNAME
+          - name: DB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: db-secret
+                key: PASSWORD
+        livenessProbe:
+          httpGet:  
+            port: 8080
+            path: /actuator/health/liveness
+        readinessProbe:
+          httpGet:
+            port: 8080
+            path: /actuator/health/readiness
