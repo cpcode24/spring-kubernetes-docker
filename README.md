@@ -1,4 +1,4 @@
-# Spring Kubernetes Docker — demo
+# Spring on Kubernetes: Deploying and Managing Cloud-Native Applications Demo
 
 This repository contains a small Spring Boot demo application ("demo") and deployment artifacts for running it locally or inside a local Kubernetes cluster (kind). The service models a simple catalog for services, products, vendors and customers and exposes REST endpoints for CRUD operations.
 
